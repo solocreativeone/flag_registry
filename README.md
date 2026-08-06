@@ -75,10 +75,10 @@ component breakdown.
 - [x] Verified on Arbiscan
 - [x] Backend built (monitors on-chain activity, writes flags)
 - [x] Telegram bot (alerts + `/status` command)
-- [x] Manual write + read confirmed end-to-end (flag written via
-      `backend/test_flag.py`, read back correctly via `/status`)
-- [ ] Full automatic loop tested (detection -> auto-write -> auto-alert,
-      no manual trigger)
+- [x] Manual write + read confirmed end-to-end
+- [x] Full automatic loop confirmed working (detection -> auto-write ->
+      auto-alert, no manual trigger, ~30s end-to-end using a dedicated
+      Alchemy RPC endpoint)
 - [ ] Demo video
 
 ## License

@@ -1,0 +1,146 @@
+[
+  {
+    "inputs": [],
+    "name": "ZeroAddress",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "flaggedBy",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "reason",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum FlagRegistry.Severity",
+        "name": "severity",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "AddressFlagged",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "reason",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "enum FlagRegistry.Severity",
+        "name": "severity",
+        "type": "uint8"
+      }
+    ],
+    "name": "flag",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      }
+    ],
+    "name": "getFlagCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      }
+    ],
+    "name": "getFlags",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "flaggedBy",
+            "type": "address"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "reason",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "enum FlagRegistry.Severity",
+            "name": "severity",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct FlagRegistry.Flag[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      }
+    ],
+    "name": "getHighestSeverity",
+    "outputs": [
+      {
+        "internalType": "enum FlagRegistry.Severity",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

@@ -4,12 +4,13 @@ A public, permissionless on-chain registry of reputation flags on addresses,
 deployed on Arbitrum. Anyone can flag an address with a reason and severity;
 anyone (any wallet, dApp, or bot) can read every flag ever placed on an
 address. Reputation data like this shouldn't live in one company's private
-database if it's meant to be trusted and reused across the ecosystem; putting
+database if it's meant to be trusted and reused across the ecosystem, putting
 it on-chain makes it public, permissionless, and composable by design.
 
-This is the foundation for an alerting service (Telegram bot) that watches
-on-chain activity and writes flags to this registry automatically, so other
-tools can build trust decisions on top of that history.
+A Python backend watches on-chain activity and writes flags to this registry
+automatically, and a Telegram bot surfaces alerts and answers flag-history
+queries on demand. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the
+full system diagram.
 
 ## Contract
 
@@ -27,32 +28,6 @@ Severity levels: `Info`, `Low`, `Medium`, `High`.
 Event: `AddressFlagged`, indexed on `target` and `flaggedBy` for easy
 off-chain filtering.
 
-## Setup
-
-```bash
-npm install
-cp .env.example .env
-# fill in PRIVATE_KEY (use a throwaway testnet wallet) and ARBISCAN_API_KEY
-```
-
-## Test
-
-```bash
-npm test
-```
-
-## Deploy to Arbitrum Sepolia
-
-```bash
-npm run deploy:sepolia
-```
-
-Then verify on Arbiscan (the deploy script prints the exact command):
-
-```bash
-npx hardhat verify --network arbitrumSepolia <DEPLOYED_ADDRESS>
-```
-
 ## Deployment
 
 Deployed and verified on Arbitrum Sepolia:
@@ -60,13 +35,51 @@ Deployed and verified on Arbitrum Sepolia:
 - **Address:** `0x01942C52058Bb1f710deB0c6B568402E481CbD6c`
 - **Explorer:** <https://sepolia.arbiscan.io/address/0x01942C52058Bb1f710deB0c6B568402E481CbD6c#code>
 
+## Setup (contract)
+
+```bash
+npm install
+cp .env.example .env
+# fill in PRIVATE_KEY (use a throwaway testnet wallet) and ARBISCAN_API_KEY
+```
+
+```bash
+npm test               # run the contract test suite
+npm run deploy:sepolia # deploy to Arbitrum Sepolia
+```
+
+## Setup (backend + bot)
+
+```bash
+pip install -r backend/requirements.txt
+# fill in FLAG_REGISTRY_ADDRESS, BACKEND_PRIVATE_KEY, WATCHED_ADDRESSES,
+# TELEGRAM_BOT_TOKEN, TELEGRAM_ALERT_CHAT_ID in .env
+python -m backend.main
+```
+
+## Architecture
+
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full diagram and
+component breakdown.
+
+## Open-source tools used
+
+- [Hardhat](https://hardhat.org/) - contract compilation, testing, deployment
+- [web3.py](https://web3py.readthedocs.io/) - backend chain interaction
+- [python-telegram-bot](https://python-telegram-bot.org/) - bot framework
+
 ## Status
 
 - [x] Core contract written and tested (10/10 tests passing)
 - [x] Deployed to Arbitrum Sepolia
 - [x] Verified on Arbiscan
-- [ ] Backend integration (monitors on-chain activity, writes flags)
-- [ ] Telegram bot alerts
+- [x] Backend built (monitors on-chain activity, writes flags)
+- [x] Telegram bot (alerts + `/status` command)
+- [x] Manual write + read confirmed end-to-end (flag written via
+      `backend/test_flag.py`, read back correctly via `/status`)
+- [ ] Full automatic loop tested (detection -> auto-write -> auto-alert,
+      no manual trigger)
+- [ ] Demo video
 
 ## License
 

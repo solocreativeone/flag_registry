@@ -1,1 +1,1 @@
-worker: python -m backend.main
+worker: python3 -m backend.main
